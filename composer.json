@@ -1,6 +1,7 @@
 {
     "name": "roquie/collection",
     "description": "Simple PHP Collection based on Laravel 5 Collection",
+    "keywords": ["collection", "laravel", "roquie"],
     "type": "library",
     "license": "MIT",
     "authors": [
