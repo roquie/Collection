@@ -42,7 +42,7 @@ $result = $collection->filter(function($collect) {
 });
 
 
-//4. get dot notation
+//4. get items using "dot" notation
 $collection->get('foo.0', <default>);
 $collection->getArray('foo.0'); // return [] if empty
 $collection->getInteger('foo.0'); // return 0 if empty
@@ -50,11 +50,11 @@ $collection->getBoolean('foo.0'); // return false if empty
 $collection->getString('foo.0'); // return '' if empty
 
 
-//5. remove with dot notation
+//5. remove item using "dot" notation
 $collection->rm('foo.bar'); // delete an item
 
 
-//6. has with dot notation
+//6. has item using "dot" notation
 $collection->rm('foo.bar'); // true (if not delete :) )
 $collection->forgot('foo.bar'); //alias
 
@@ -63,7 +63,7 @@ $collection->forgot('foo.bar'); //alias
 $collection->clean(); // key foo.clean deleted.
 $collection->clean('val'); // keys foo.test1 and 2 will be removed
 
-//8. set with dotnotation
+//8. set an item using "dot" notation
 
 $collection->set('baz', ['key' => 'is awesome']);
 $collection->put($key, $value); //alias
