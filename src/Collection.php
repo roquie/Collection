@@ -136,7 +136,7 @@ class Collection implements ArrayAccess, JsonSerializable, Countable, Iterator, 
      */
     protected function value($value)
     {
-        return $value instanceof Closure ? $value() : $value;
+        return $value instanceof Closure ? $value() : (new static($value));
     }
 
     /**
@@ -327,9 +327,9 @@ class Collection implements ArrayAccess, JsonSerializable, Countable, Iterator, 
      */
     public function get($key, $default = null)
     {
-        if (empty($key)) return $this->items;
+        if (empty($key)) return new static($this->items);
 
-        if (isset($this->items[$key])) return $this->items[$key];
+        if (isset($this->items[$key])) return new static($this->items[$key]);
 
         foreach (explode('.', $key) as $segment)
         {
