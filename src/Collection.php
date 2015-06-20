@@ -136,7 +136,7 @@ class Collection implements ArrayAccess, JsonSerializable, Countable, Iterator, 
      */
     protected function value($value)
     {
-        return $value instanceof Closure ? $value() : (new static($value));
+        return $value instanceof Closure ? $value() : $value;
     }
 
     /**
@@ -327,21 +327,36 @@ class Collection implements ArrayAccess, JsonSerializable, Countable, Iterator, 
      */
     public function get($key, $default = null)
     {
-        if (empty($key)) return new static($this->items);
+        if (empty($key)) {
+            return new static($this->items);
+        }
 
-        if (isset($this->items[$key])) return new static($this->items[$key]);
-
-        foreach (explode('.', $key) as $segment)
-        {
-            if ( ! is_array($this->items) || ! array_key_exists($segment, $this->items))
-            {
+        $array = $this->items;
+        foreach (explode('.', $key) as $segment) {
+            if ( ! is_array($array) || ! array_key_exists($segment, $array)) {
                 return $this->value($default);
             }
 
-            $this->items = $this->items[$segment];
+            $array = $array[$segment];
         }
 
-        return new static($this->items);
+        return $this->collectIfNotScalar($array);
+    }
+
+    /**
+     * @param $array
+     *
+     * @return static
+     */
+    protected function collectIfNotScalar($array)
+    {
+        if (is_scalar($array) || $array instanceof self) {
+            return $array;
+        } else if ( ! $array) {
+            return null;
+        } else {
+            return new static($array);
+        }
     }
 
     /**
@@ -1263,11 +1278,9 @@ class Collection implements ArrayAccess, JsonSerializable, Countable, Iterator, 
      */
     public function current()
     {
-        $current = (array) current($this->items);
-        if ( ! $current)
-            return null;
-        else
-            return new static($current);
+        $current = current($this->items);
+
+        return $this->collectIfNotScalar($current);
     }
 
     /**
