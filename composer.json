@@ -1,0 +1,20 @@
+{
+    "name": "roquie/collection",
+    "description": "Simple PHP Collection based on Laravel 5 Collection",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "roquie",
+            "email": "roquie0@gmail.com"
+        }
+    ],
+    "require": {
+      "php": ">=5.5.0"
+    },
+    "autoload": {
+      "psr-4": {
+        "Roquie\\": "src"
+      }
+    }
+}
