@@ -629,28 +629,33 @@ class Collection implements ArrayAccess, JsonSerializable, Countable, Iterator, 
      */
     public function set($key, $value)
     {
+        $value = $this->getArrayableItems($value);
+
         if (empty($key)) {
-            return new static($this->items = $value);
+            return $this->collectIfNotScalar($this->items = $value);
         }
 
-        $keys = explode('.', $key);
+        $array =& $this->items;
+        $keys  = explode('.', $key);
 
-        while (count($keys) > 1) {
+        while (count($keys) > 1)
+        {
             $key = array_shift($keys);
 
             // If the key doesn't exist at this depth, we will just create an empty array
             // to hold the next value, allowing us to create the arrays to hold final
             // values at the correct depth. Then we'll keep digging into the array.
-            if (!isset($this->items[$key]) || !is_array($this->items[$key])) {
-                $this->items[$key] = [];
+            if ( ! isset($array[$key]) || ! is_array($array[$key]))
+            {
+                $array[$key] = [];
             }
 
-            $this->items = &$this->items[$key];
+            $array =& $array[$key];
         }
 
-        $this->items[array_shift($keys)] = $value;
+        $array[array_shift($keys)] = $value;
 
-        return new static($this->items);
+        return $this->collectIfNotScalar($array);
     }
 
     /**
