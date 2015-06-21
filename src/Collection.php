@@ -1113,6 +1113,17 @@ class Collection implements ArrayAccess, JsonSerializable, Countable, Iterator, 
         return $this->get($key) != $value;
     }
 
+    /**
+     *  + items
+     */
+    public function plus()
+    {
+        foreach(func_get_args() as $value) {
+            $this->items += (array) $this->getArrayableItems($value);
+        }
+
+        return new static($this->items);
+    }
 
     /**
      * For any type of array. Based in redshift code.
