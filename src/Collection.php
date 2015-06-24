@@ -1055,13 +1055,15 @@ class Collection implements ArrayAccess, JsonSerializable, Countable, Iterator, 
      *
      * @param  callable $callback
      *
-     * @return static
+     * @return Collection
      */
-    public function filter(callable $callback)
+    public function filter(callable $callback = null)
     {
         $return = [];
         foreach ($this as $k => $item) {
-            if ($callback($item)) {
+            if (null !== $callback && $callback($item)) {
+                $return[$k] = $item;
+            } elseif ( ! empty($item)) {
                 $return[$k] = $item;
             }
         }
