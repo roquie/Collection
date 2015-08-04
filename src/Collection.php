@@ -724,6 +724,7 @@ class Collection implements ArrayAccess, JsonSerializable, Countable, Iterator, 
         }
 
         foreach ($this->items as $key => $item) {
+            /** @var Closure $value */
             if ($value($item, $key)) {
                 return $key;
             }
