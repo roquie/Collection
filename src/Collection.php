@@ -157,12 +157,22 @@ class Collection implements ArrayAccess, JsonSerializable, Countable, Iterator, 
      * Diff the collection with the given items.
      *
      * @param $items
-     *
      * @return static
      */
     public function diff($items)
     {
         return new static(array_diff($this->items, $this->getArrayableItems($items)));
+    }
+    
+    /**
+     * Return the values from a single column in the input array.
+     * 
+     * @param $columnKey
+     * @return static
+     */
+    public function column($columnKey)
+    {
+        return new static(array_column($this->items, $columnKey));
     }
 
     /**
