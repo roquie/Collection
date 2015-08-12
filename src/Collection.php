@@ -281,7 +281,7 @@ class Collection implements ArrayAccess, JsonSerializable, Countable, Iterator, 
      */
     public function rm($keys)
     {
-        $original =& $array;
+        $original =& $this->items;
 
         foreach ((array) $keys as $key) {
             $parts = explode('.', $key);
@@ -289,15 +289,15 @@ class Collection implements ArrayAccess, JsonSerializable, Countable, Iterator, 
             while (count($parts) > 1) {
                 $part = array_shift($parts);
 
-                if (isset($array[$part]) && is_array($array[$part])) {
-                    $array =& $array[$part];
+                if (isset($this->items[$part]) && is_array($this->items[$part])) {
+                    $this->items =& $this->items[$part];
                 }
             }
 
-            unset($array[array_shift($parts)]);
+            unset($this->items[array_shift($parts)]);
 
             // clean up after each pass
-            $array =& $original;
+            $this->items =& $original;
         }
     }
 
