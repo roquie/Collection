@@ -237,12 +237,12 @@ class Collection implements ArrayAccess, JsonSerializable, Countable, Iterator, 
     public function first(callable $callback = null, $default = null)
     {
         if (is_null($callback)) {
-            return count($this->items) > 0 ? reset($this->items) : null;
+            return count($this->items) > 0 ? new static(reset($this->items)) : null;
         }
 
         foreach ($this->items as $key => $value) {
-            if (call_user_func($callback, $key, $value)) {
-                return $value;
+            if (call_user_func($callback, $key, new static($value))) {
+                return new static($value);
             }
         }
 
