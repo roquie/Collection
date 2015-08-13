@@ -1074,10 +1074,10 @@ class Collection implements ArrayAccess, JsonSerializable, Countable, Iterator, 
         foreach ($this as $k => $item) {
             if (null !== $callback) {
                 if ($callback($item)) {
-                    $return[$k] = $item;
+                    $return[$k] = $item->toArray();
                 }
             } elseif ( ! empty($item)) {
-                $return[$k] = $item;
+                $return[$k] = $item->toArray();
             }
         }
 
