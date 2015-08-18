@@ -1241,6 +1241,11 @@ class Collection implements ArrayAccess, JsonSerializable, Countable, Iterator, 
     {
         return (bool) $this->get($key, false, false);
     }
+    
+    public function getFloat($key)
+    {
+        return (float) $this->get($key, 0, false);
+    }
 
     /**
      * Alias for getBoolean($key);
