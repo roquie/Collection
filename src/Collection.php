@@ -4,7 +4,6 @@
  * E-mail: roquie0@gmail.com
  * GitHub: Roquie
  *
- * Date: 19.06.15
  * Project: Collection.lc
  */
 
@@ -334,7 +333,7 @@ class Collection implements ArrayAccess, JsonSerializable, Countable, Iterator, 
             $array = $array[$segment];
         }
 
-        return $collection ? $this->collectIfNotScalar($array) : $array;
+        return $collection ? $this->collectIfNeed($array) : $array;
     }
 
     /**
@@ -342,15 +341,13 @@ class Collection implements ArrayAccess, JsonSerializable, Countable, Iterator, 
      *
      * @return static
      */
-    protected function collectIfNotScalar($array)
+    protected function collectIfNeed($array)
     {
-        if (is_scalar($array) || $array instanceof self) {
-            return $array;
-        } elseif (null === $array) {
-            return null;
-        } else {
+        if (is_array($array)) {
             return new static($array);
         }
+
+        return $array;
     }
 
     /**
@@ -626,7 +623,7 @@ class Collection implements ArrayAccess, JsonSerializable, Countable, Iterator, 
         $value = $this->getArrayableItems($value);
 
         if (empty($key)) {
-            return $this->collectIfNotScalar($this->items = $value);
+            return $this->collectIfNeed($this->items = $value);
         }
 
         $array =& $this->items;
@@ -647,7 +644,7 @@ class Collection implements ArrayAccess, JsonSerializable, Countable, Iterator, 
 
         $array[array_shift($keys)] = $value;
 
-        return $this->collectIfNotScalar($array);
+        return $this->collectIfNeed($array);
     }
 
     /**
@@ -1271,7 +1268,7 @@ class Collection implements ArrayAccess, JsonSerializable, Countable, Iterator, 
     {
         $current = current($this->items);
 
-        return $this->collectIfNotScalar($current);
+        return $this->collectIfNeed($current);
     }
 
     /**
