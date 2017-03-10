@@ -1,4 +1,7 @@
 # Collection
+
+DEPRECATED. Please, use original laravel collection. This package no longer maintained.
+
 Simple PHP Collection based on Laravel 5 Collection.
 
 ## Install
